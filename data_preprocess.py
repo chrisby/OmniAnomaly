@@ -10,7 +10,7 @@ from tfsnippet.utils import makedirs
 output_folder = 'processed'
 makedirs(output_folder, exist_ok=True)
 
-
+from IPython import embed
 def load_and_save(category, filename, dataset, dataset_folder):
     temp = np.genfromtxt(os.path.join(dataset_folder, category, filename),
                          dtype=np.float32,
@@ -30,7 +30,7 @@ def load_data(dataset):
                 load_and_save('test', filename, filename.strip('.txt'), dataset_folder)
                 load_and_save('test_label', filename, filename.strip('.txt'), dataset_folder)
     elif dataset == 'SMAP' or dataset == 'MSL':
-        dataset_folder = 'data'
+        dataset_folder = '../../data/telemanom/data'
         with open(os.path.join(dataset_folder, 'labeled_anomalies.csv'), 'r') as file:
             csv_reader = csv.reader(file, delimiter=',')
             res = [row for row in csv_reader][1:]
@@ -52,15 +52,20 @@ def load_data(dataset):
             dump(labels, file)
 
         def concatenate_and_save(category):
+            dataset_order = []
             data = []
             for row in data_info:
                 filename = row[0]
+                dataset_order.append(filename)
                 temp = np.load(os.path.join(dataset_folder, category, filename + '.npy'))
                 data.extend(temp)
             data = np.asarray(data)
             print(dataset, category, data.shape)
             with open(os.path.join(output_folder, dataset + "_" + category + ".pkl"), "wb") as file:
                 dump(data, file)
+
+            with open(os.path.join(output_folder, dataset + "_" + category + "_order_" + ".pkl"), "wb") as file:
+                dump(dataset_order, file)
 
         for c in ['train', 'test']:
             concatenate_and_save(c)
