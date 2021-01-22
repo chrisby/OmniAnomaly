@@ -29,9 +29,9 @@ def save_z(z, filename='z'):
 
 
 def get_data_dim(dataset):
-    if dataset == 'SMAP':
+    if 'SMAP' in dataset:
         return 1 # for now always return 1 25
-    elif dataset == 'MSL':
+    elif 'MSL' in dataset:
         return 1 # for now always return 1 55
     elif str(dataset).startswith('machine'):
         return 38
@@ -52,6 +52,8 @@ def get_data(dataset, max_train_size=None, max_test_size=None, print_log=True, d
     prefix = 'processed'
     if re.match('A[0-9]Benchmark.*', dataset):
         prefix = join(prefix, 'Yahoo')
+    elif dataset in ['SMAP_ours', 'MSL_ours']:
+        prefix = join(prefix, 'NASA')
 
     if max_train_size is None:
         train_end = None
