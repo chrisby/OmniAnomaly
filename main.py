@@ -21,10 +21,12 @@ from omni_anomaly.training import Trainer
 from omni_anomaly.utils import get_data_dim, get_data, save_z
 
 
+from IPython import embed
 class ExpConfig(Config):
     # dataset configuration
     dataset = "machine-1-1"
-    x_dim = get_data_dim(dataset)
+    #x_dim = get_data_dim(dataset)
+    x_dim = 1
 
     # model architecture configuration
     use_connected_z_q = True
@@ -77,7 +79,7 @@ class ExpConfig(Config):
 
     # outputs config
     save_z = False  # whether to save sampled z in hidden space
-    get_score_on_dim = False  # whether to get score on dim. If `True`, the score will be a 2-dim ndarray
+    get_score_on_dim = True  # whether to get score on dim. If `True`, the score will be a 2-dim ndarray
     save_dir = 'model'
     restore_dir = None  # If not None, restore variables from this dir
     result_dir = 'result'  # Where to save the result file
@@ -95,6 +97,8 @@ def main():
     (x_train, _), (x_test, y_test) = \
         get_data(config.dataset, config.max_train_size, config.max_test_size, train_start=config.train_start,
                  test_start=config.test_start)
+
+    print(f"train shape {x_train.shape}, test shape: {x_test.shape}")
 
     # construct the model under `variable_scope` named 'model'
     with tf.variable_scope('model') as model_vs:
@@ -146,6 +150,12 @@ def main():
                 # get score of test set
                 test_start = time.time()
                 test_score, test_z, pred_speed = predictor.get_score(x_test)
+
+                # Write out score
+                with open(f'results/{config.dataset}.npz', 'wb') as f:
+                    np.savez(f, test_score=test_score, y_test=y_test)
+
+
                 test_time = time.time() - test_start
                 if config.save_z:
                     save_z(test_z, 'test_z')
