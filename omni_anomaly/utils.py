@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
+from os.path import join
 import pickle
+import re
 
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
@@ -33,6 +35,8 @@ def get_data_dim(dataset):
         return 1 # for now always return 1 55
     elif str(dataset).startswith('machine'):
         return 38
+    elif re.match('A[0-9]Benchmark.*', dataset):
+        return 1
     else:
         raise ValueError('unknown dataset '+str(dataset))
 
@@ -44,6 +48,11 @@ def get_data(dataset, max_train_size=None, max_test_size=None, print_log=True, d
 
     return shape: (([train_size, x_dim], [train_size] or None), ([test_size, x_dim], [test_size]))
     """
+    # Handle yahoo
+    prefix = 'processed'
+    if re.match('A[0-9]Benchmark.*', dataset):
+        prefix = join(prefix, 'Yahoo')
+
     if max_train_size is None:
         train_end = None
     else:
