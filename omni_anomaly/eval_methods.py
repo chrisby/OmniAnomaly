@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-#from omni_anomaly.spot import SPOT
+from omni_anomaly.spot import SPOT
 
 
 def calc_point2point(predict, actual):
@@ -117,39 +117,39 @@ def bf_search(score, label, start, end=None, step_num=1, display_freq=1, verbose
     return m, m_t
 
 
-#def pot_eval(init_score, score, label, q=1e-3, level=0.02):
-#    """
-#    Run POT method on given score.
-#    Args:
-#        init_score (np.ndarray): The data to get init threshold.
-#            For `OmniAnomaly`, it should be the anomaly score of train set.
-#        score (np.ndarray): The data to run POT method.
-#            For `OmniAnomaly`, it should be the anomaly score of test set.
-#        label:
-#        q (float): Detection level (risk)
-#        level (float): Probability associated with the initial threshold t
-#
-#    Returns:
-#        dict: pot result dict
-#    """
-#    s = SPOT(q)  # SPOT object
-#    s.fit(init_score, score)  # data import
-#    s.initialize(level=level, min_extrema=True)  # initialization step
-#    ret = s.run(dynamic=False)  # run
-#    print(len(ret['alarms']))
-#    print(len(ret['thresholds']))
-#    pot_th = -np.mean(ret['thresholds'])
-#    pred, p_latency = adjust_predicts(score, label, pot_th, calc_latency=True)
-#    p_t = calc_point2point(pred, label)
-#    print('POT result: ', p_t, pot_th, p_latency)
-#    return {
-#        'pot-f1': p_t[0],
-#        'pot-precision': p_t[1],
-#        'pot-recall': p_t[2],
-#        'pot-TP': p_t[3],
-#        'pot-TN': p_t[4],
-#        'pot-FP': p_t[5],
-#        'pot-FN': p_t[6],
-#        'pot-threshold': pot_th,
-#        'pot-latency': p_latency
-#    }
+def pot_eval(init_score, score, label, q=1e-3, level=0.02):
+    """
+    Run POT method on given score.
+    Args:
+        init_score (np.ndarray): The data to get init threshold.
+            For `OmniAnomaly`, it should be the anomaly score of train set.
+        score (np.ndarray): The data to run POT method.
+            For `OmniAnomaly`, it should be the anomaly score of test set.
+        label:
+        q (float): Detection level (risk)
+        level (float): Probability associated with the initial threshold t
+
+    Returns:
+        dict: pot result dict
+    """
+    s = SPOT(q)  # SPOT object
+    s.fit(init_score, score)  # data import
+    s.initialize(level=level, min_extrema=True)  # initialization step
+    ret = s.run(dynamic=False)  # run
+    print(len(ret['alarms']))
+    print(len(ret['thresholds']))
+    pot_th = -np.mean(ret['thresholds'])
+    pred, p_latency = adjust_predicts(score, label, pot_th, calc_latency=True)
+    p_t = calc_point2point(pred, label)
+    print('POT result: ', p_t, pot_th, p_latency)
+    return {
+        'pot-f1': p_t[0],
+        'pot-precision': p_t[1],
+        'pot-recall': p_t[2],
+        'pot-TP': p_t[3],
+        'pot-TN': p_t[4],
+        'pot-FP': p_t[5],
+        'pot-FN': p_t[6],
+        'pot-threshold': pot_th,
+        'pot-latency': p_latency
+    }

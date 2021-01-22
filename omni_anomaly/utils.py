@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
 prefix = "processed"
-
+from IPython import embed
 
 def save_z(z, filename='z'):
     """
@@ -28,9 +28,9 @@ def save_z(z, filename='z'):
 
 def get_data_dim(dataset):
     if dataset == 'SMAP':
-        return 25
+        return 1 # for now always return 1 25
     elif dataset == 'MSL':
-        return 55
+        return 1 # for now always return 1 55
     elif str(dataset).startswith('machine'):
         return 38
     else:
@@ -57,17 +57,22 @@ def get_data(dataset, max_train_size=None, max_test_size=None, print_log=True, d
     print("test: ", test_start, test_end)
     x_dim = get_data_dim(dataset)
     f = open(os.path.join(prefix, dataset + '_train.pkl'), "rb")
-    train_data = pickle.load(f).reshape((-1, x_dim))[train_start:train_end, :]
+    train_data = pickle.load(f)
+    # train_data = f.reshape((-1, x_dim))[train_start:train_end, 0:x_dim]
+    train_data = train_data[train_start:train_end, 0:x_dim]
     f.close()
     try:
         f = open(os.path.join(prefix, dataset + '_test.pkl'), "rb")
-        test_data = pickle.load(f).reshape((-1, x_dim))[test_start:test_end, :]
+        test_data = pickle.load(f)
+        # test_data = f.reshape((-1, x_dim))[test_start:test_end, 0:x_dim]
+        test_data = test_data[test_start:test_end, 0:x_dim]
         f.close()
     except (KeyError, FileNotFoundError):
         test_data = None
     try:
         f = open(os.path.join(prefix, dataset + "_test_label.pkl"), "rb")
-        test_label = pickle.load(f).reshape((-1))[test_start:test_end]
+        test_label = pickle.load(f)
+        test_label = test_label.reshape((-1))[test_start:test_end]
         f.close()
     except (KeyError, FileNotFoundError):
         test_label = None

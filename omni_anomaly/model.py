@@ -13,7 +13,7 @@ from omni_anomaly.recurrent_distribution import RecurrentDistribution
 from omni_anomaly.vae import Lambda, VAE
 from omni_anomaly.wrapper import TfpDistribution, softplus_std, rnn, wrap_params_net
 
-
+from IPython import embed
 class OmniAnomaly(VarScopeObject):
     def __init__(self, config, name=None, scope=None):
         self.config = config
