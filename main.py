@@ -175,11 +175,10 @@ def main():
 
                     # get best f1
                     t, th = bf_search(test_score, y_test[-len(test_score):],
-                                      start=config.bf_search_min,
-                                      end=config.bf_search_max,
-                                      step_num=int(abs(config.bf_search_max - config.bf_search_min) /
-                                                   config.bf_search_step_size),
-                                      display_freq=50)
+                                      start=np.min(test_score),
+                                      end=np.max(test_score),
+                                      step_num=len(test_score),
+                                      display_freq=len(test_score))
                     # get pot results
                     pot_result = pot_eval(train_score, test_score, y_test[-len(test_score):], level=config.level)
 
