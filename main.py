@@ -221,7 +221,7 @@ if __name__ == '__main__':
     print_with_title('Configurations', pformat(config.to_dict()), after='\n')
 
     # open the result object and prepare for result directories if specified
-    results = MLResults(config.result_dir)
+    results = MLResults(f"{config.result_dir}/{config.dataset}")
     results.save_config(config)  # save experiment settings for review
     results.make_dirs(config.save_dir, exist_ok=True)
     with warnings.catch_warnings():

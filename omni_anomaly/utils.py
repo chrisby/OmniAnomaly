@@ -37,6 +37,8 @@ def get_data_dim(dataset):
         return 38
     elif re.match('A[0-9]Benchmark.*', dataset):
         return 1
+    elif 'artificialWith' in dataset or 'real' in dataset:
+        return 1
     else:
         raise ValueError('unknown dataset '+str(dataset))
 
@@ -54,6 +56,8 @@ def get_data(dataset, max_train_size=None, max_test_size=None, print_log=True, d
         prefix = join(prefix, 'Yahoo')
     elif dataset in ['SMAP_ours', 'MSL_ours']:
         prefix = join(prefix, 'NASA')
+    elif 'artificialWith' in dataset or 'real' in dataset:
+        prefix = join(prefix, 'NAB')
 
     if max_train_size is None:
         train_end = None
