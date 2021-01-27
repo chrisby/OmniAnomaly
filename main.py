@@ -177,8 +177,8 @@ def main():
                     t, th = bf_search(test_score, y_test[-len(test_score):],
                                       start=np.min(test_score),
                                       end=np.max(test_score),
-                                      step_num=len(test_score),
-                                      display_freq=len(test_score))
+                                      step_num=1000,
+                                      display_freq=1000)
                     # get pot results
                     pot_result = pot_eval(train_score, test_score, y_test[-len(test_score):], level=config.level)
 
