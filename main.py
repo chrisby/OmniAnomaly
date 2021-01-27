@@ -141,7 +141,7 @@ def main():
             # get score of train set for POT algorithm
             train_score, train_z, train_pred_speed = predictor.get_score(x_train)
             if config.train_score_filename is not None:
-                with open(os.path.join(config.result_dir, config.train_score_filename), 'wb') as file:
+                with open(os.path.join(config.result_dir, config.dataset, config.train_score_filename), 'wb') as file:
                     pickle.dump(train_score, file)
             if config.save_z:
                 save_z(train_z, 'train_z')
@@ -164,7 +164,7 @@ def main():
                     'pred_total_time': test_time
                 })
                 if config.test_score_filename is not None:
-                    with open(os.path.join(config.result_dir, config.test_score_filename), 'wb') as file:
+                    with open(os.path.join(config.result_dir, config.dataset, config.test_score_filename), 'wb') as file:
                         pickle.dump(test_score, file)
 
                 if y_test is not None and len(y_test) >= len(test_score):
