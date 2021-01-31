@@ -54,7 +54,7 @@ def get_data(dataset, max_train_size=None, max_test_size=None, print_log=True, d
     prefix = 'processed'
     if re.match('A[0-9]Benchmark.*', dataset):
         prefix = join(prefix, 'Yahoo')
-    elif dataset in ['SMAP_ours', 'MSL_ours']:
+    elif 'MSL_' in dataset or 'SMAP_' in dataset:
         prefix = join(prefix, 'NASA')
     elif 'artificialWith' in dataset or 'real' in dataset:
         prefix = join(prefix, 'NAB')

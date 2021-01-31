@@ -141,7 +141,7 @@ def main():
             # get score of train set for POT algorithm
             train_score, train_z, train_pred_speed = predictor.get_score(x_train)
             if config.train_score_filename is not None:
-                with open(os.path.join(config.result_dir, config.train_score_filename), 'wb') as file:
+                with open(os.path.join(config.result_dir, config.dataset, config.train_score_filename), 'wb') as file:
                     pickle.dump(train_score, file)
             if config.save_z:
                 save_z(train_z, 'train_z')
@@ -164,7 +164,7 @@ def main():
                     'pred_total_time': test_time
                 })
                 if config.test_score_filename is not None:
-                    with open(os.path.join(config.result_dir, config.test_score_filename), 'wb') as file:
+                    with open(os.path.join(config.result_dir, config.dataset, config.test_score_filename), 'wb') as file:
                         pickle.dump(test_score, file)
 
                 if y_test is not None and len(y_test) >= len(test_score):
@@ -175,11 +175,10 @@ def main():
 
                     # get best f1
                     t, th = bf_search(test_score, y_test[-len(test_score):],
-                                      start=config.bf_search_min,
-                                      end=config.bf_search_max,
-                                      step_num=int(abs(config.bf_search_max - config.bf_search_min) /
-                                                   config.bf_search_step_size),
-                                      display_freq=50)
+                                      start=np.min(test_score),
+                                      end=np.max(test_score),
+                                      step_num=1000,
+                                      display_freq=1000)
                     # get pot results
                     pot_result = pot_eval(train_score, test_score, y_test[-len(test_score):], level=config.level)
 
