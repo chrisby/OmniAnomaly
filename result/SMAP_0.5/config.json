@@ -1,0 +1,1 @@
+{"dataset": "SMAP_0.5", "dense_dim": 50, "max_epoch": 50, "rnn_num_hidden": 50}
