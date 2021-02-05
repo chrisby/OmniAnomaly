@@ -82,7 +82,7 @@ class ExpConfig(Config):
     get_score_on_dim = True  # whether to get score on dim. If `True`, the score will be a 2-dim ndarray
     save_dir = 'model'
     restore_dir = None  # If not None, restore variables from this dir
-    result_dir = 'result'  # Where to save the result file
+    result_dir = '../../OA_results'  # Where to save the result file
     train_score_filename = 'train_score.pkl'
     test_score_filename = 'test_score.pkl'
 
