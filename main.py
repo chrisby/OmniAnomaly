@@ -35,12 +35,12 @@ class ExpConfig(Config):
     # model parameters
     z_dim = 3
     rnn_cell = 'GRU'  # 'GRU', 'LSTM' or 'Basic'
-    rnn_num_hidden = 500
+    rnn_num_hidden = 50
     window_length = 100
-    dense_dim = 500
+    dense_dim = 50
     posterior_flow_type = 'nf'  # 'nf' or None
     nf_layers = 20  # for nf
-    max_epoch = 10
+    max_epoch = 50
     train_start = 0
     max_train_size = None  # `None` means full train set
     batch_size = 50
@@ -152,7 +152,8 @@ def main():
                 test_score, test_z, pred_speed = predictor.get_score(x_test)
 
                 # Write out score
-                with open(f'results/{config.dataset}.npz', 'wb') as f:
+                os.makedirs(f"{config.result_dir}/{config.dataset}", exist_ok=True)
+                with open(f'{config.result_dir}/{config.dataset}/scores.npz', 'wb') as f:
                     np.savez(f, test_score=test_score, y_test=y_test)
 
 
