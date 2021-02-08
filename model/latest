@@ -1,2 +1,0 @@
-model_checkpoint_path: "/home/ubuntu/Projects/statespaceGP/statespacegp/OmniAnomaly/model/variables.dat"
-all_model_checkpoint_paths: "/home/ubuntu/Projects/statespaceGP/statespacegp/OmniAnomaly/model/variables.dat"
