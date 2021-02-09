@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-from omni_anomaly.spot import SPOT
+#from omni_anomaly.spot import SPOT
+from tqdm import tqdm
 
 
 def calc_point2point(predict, actual):
@@ -105,7 +106,7 @@ def bf_search(score, label, start, end=None, step_num=1, display_freq=1, verbose
     threshold = search_lower_bound
     m = (-1., -1., -1.)
     m_t = 0.0
-    for i in range(search_step):
+    for i in tqdm(range(search_step)):
         threshold += search_range / float(search_step)
         target = calc_seq(score, label, threshold, calc_latency=True)
         if target[0] > m[0]:
