@@ -11,6 +11,7 @@ from tfsnippet.utils import (reopen_variable_scope,
                              ensure_variables_initialized,
                              get_variables_as_dict)
 
+from IPython import embed
 from omni_anomaly.utils import BatchSlidingWindow
 
 __all__ = ['Trainer']
@@ -282,7 +283,7 @@ class Trainer(VarScopeObject):
                                  with_tag=True)
 
             return {
-                'best_valid_loss': float(loop.best_valid_metric),
+                #'best_valid_loss': float(loop.best_valid_metric),
                 'train_time': np.mean(train_batch_time),
                 'valid_time': np.mean(valid_batch_time),
             }

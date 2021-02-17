@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-from omni_anomaly.spot import SPOT
+#from omni_anomaly.spot import SPOT
 
 
 def calc_point2point(predict, actual):

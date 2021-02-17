@@ -37,19 +37,22 @@ class ExpConfig(Config):
     rnn_cell = 'GRU'  # 'GRU', 'LSTM' or 'Basic'
     rnn_num_hidden = 50
     window_length = 100
-    dense_dim = 50
+    dense_dim = 500
     posterior_flow_type = 'nf'  # 'nf' or None
     nf_layers = 20  # for nf
     max_epoch = 50
     train_start = 0
     max_train_size = None  # `None` means full train set
-    batch_size = 50
+    batch_size = 500
     l2_reg = 0.0001
     initial_lr = 0.001
     lr_anneal_factor = 0.5
     lr_anneal_epoch_freq = 40
     lr_anneal_step_freq = None
     std_epsilon = 1e-4
+
+    # percentage of train data
+    train_fraction = 1.0
 
     # evaluation parameters
     test_n_z = 1
@@ -127,6 +130,10 @@ def main():
                 saver = VariableSaver(get_variables_as_dict(model_vs), config.restore_dir)
                 saver.restore()
 
+            # Split train data given percentage
+            num_train = int(config.train_fraction * x_train.shape[0])
+            x_train = x_train[-num_train:, :]
+
             if config.max_epoch > 0:
                 # train the model
                 train_start = time.time()
@@ -181,7 +188,7 @@ def main():
                                       step_num=1000,
                                       display_freq=1000)
                     # get pot results
-                    pot_result = pot_eval(train_score, test_score, y_test[-len(test_score):], level=config.level)
+                    #pot_result = pot_eval(train_score, test_score, y_test[-len(test_score):], level=config.level)
 
                     # output the results
                     best_valid_metrics.update({
@@ -195,7 +202,7 @@ def main():
                         'latency': t[-1],
                         'threshold': th
                     })
-                    best_valid_metrics.update(pot_result)
+                    #best_valid_metrics.update(pot_result)
                 results.update_metrics(best_valid_metrics)
 
             if config.save_dir is not None:
